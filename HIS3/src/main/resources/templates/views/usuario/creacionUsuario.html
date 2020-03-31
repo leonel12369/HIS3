@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="views/layout/layout ::head">
+
+</head>
+<script type="text/javascript">
+
+function rol_admin(){
+	var check1 = document.getElementById("rol1");
+	 if (check1.checked == true) {
+		 var check1 = $("#rol1").val(true);
+		 console.log(document.getElementById("rol1").value);
+    } else {
+   	 var check1 = $("#rol1").val(false);
+   		console.log(document.getElementById("rol1").value);
+    }
+};
+
+function rol_user(){
+	var check2 = document.getElementById("rol2");
+	 if (check2.checked == true) {
+		 var check1 = $("#rol2").val(true);
+		 console.log(document.getElementById("rol2").value);
+   } else {
+  	 var check1 = $("#rol2").val(false);
+  		console.log(document.getElementById("rol2").value);
+   }
+};
+
+function guardarUsuario(){
+	//console.log("sdf");
+	var nombre= document.getElementById("nombre").value;
+	var apellidoPaterno=document.getElementById("apellidoPaterno").value;
+	var apellidoMaterno=document.getElementById("apellidoMaterno").value;
+	var nombreUsuario=document.getElementById("nombreUsuario").value;
+	var label = document.getElementById('labelNombreUsuario'); 
+	var contrasenia=document.getElementById("contrasenia").value;
+	var check1 = document.getElementById("rol1").value;
+	var check2 = document.getElementById("rol2").value;
+	
+	if(nombre==""){
+		alert("El campo nombre esta vacio"); 
+    	return false;
+	};
+	if(apellidoPaterno==""){
+		alert("El campo apellido Paterno esta vacio"); 
+    	return false;
+	};
+	if(apellidoMaterno==""){
+		alert("El campo apellido Materno esta vacio"); 
+    	return false;
+	};
+	if(nombreUsuario==""){
+		alert("El campo nombre Usuario esta vacio"); 
+    	return false;
+	};
+	if(nombreUsuario.length<4){
+		alert("El campo nombre Usuario debe tener mas de 3 letras"); 
+    	return false;
+	};
+	if(contrasenia==""){
+		alert("El campo contrasenia esta vacio"); 
+    	return false;
+	};
+	
+	if(check1=="false" && check2=="false" ){
+		alert("Al menos el usuario debe tener algun rol"); 
+    	return false;
+	}
+	console.log("---")
+ 	if(label.style.color==='red'){
+ 		alert("Debe cambiar el usuario"); 
+ 		return false;
+ 	}
+	/////////////////////////////////
+	console.log("---")
+	var listRol=[];
+	if(check1=="true" && check2=="true" ){
+		listRol.push("ROLE_ADMIN");
+		listRol.push("ROLE_USER");
+	}
+	else{
+		if(check1=="true"){
+			listRol.push("ROLE_ADMIN");
+		}
+		else{
+			listRol.push("ROLE_USER");
+		}	
+	}
+	var token = $("input[name='_csrf']").val();
+	console.log(token);
+	var header = "X-CSRF-TOKEN";
+	console.log(header)
+	var jsonUsuario={
+			nombre:nombre,
+			apellidoPaterno:apellidoPaterno,
+			apellidoMaterno:apellidoMaterno,
+			nombreUsuario:nombreUsuario,
+			contrasenia:contrasenia,
+			listRol:listRol
+	}
+	
+	$.ajax({
+		contentType: "application/json",
+		url:"/usuario/guardar",
+		beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token)
+          },
+		datatype:"application/json",
+		type:'POST',
+		data:JSON.stringify(jsonUsuario),
+		dataType:'json',
+		success:function(data){
+			var mensaje = document.getElementById('mensaje_success');  
+			mensaje.style.display = 'block';
+			setTimeout(function(){
+				mensaje.style.display = 'none';
+				}, 2000);
+			console.log("success");
+		},
+		error:function(){
+			console.log("error");
+		}
+	})
+}
+</script>
+ <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+		
+			<!-- sidder bar -->
+			<div class="col-md-3 left_col" th:replace="views/layout/layout ::sidebar"></div>
+			<!-- /sidder bar -->
+	
+	        <!-- top navigation -->
+	        <div class="top_nav" th:replace="views/layout/layout :: top_nav"></div>
+	        <!-- /top navigation -->
+	
+	        <!-- page content -->
+	        <div class="right_col" role="main">
+	          <div class="">
+	            <div class="page-title">
+	              <div class="title_left">
+	                <h3>Modulo Usuario</h3>
+	              </div>
+	            </div>
+	
+	            <div class="clearfix"></div>
+	
+	            <div class="row">
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Creacion de usuario </h2>
+                    
+                   <div class="clearfix"></div>
+                   <div id="mensaje_success"class="alert alert-success" role="alert" style="display:none">
+					  Se guardo correctamente
+					</div>
+                  </div>
+                  <div class="x_content">
+
+
+                    <!-- Smart Wizard -->
+                    <p>Creacion de un usuario en el sistema.</p>
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                      <ul class="wizard_steps">
+                        <li>
+                          <a href="#step-1">
+                            <span class="step_no">1</span>
+                            <span class="step_descr">
+                                              Paso 1<br />
+                                              <small> Descripcion</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-2">
+                            <span class="step_no">2</span>
+                            <span class="step_descr">
+                                              Paso 2<br />
+                                              <small> Datos Persona</small>
+                                          </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#step-3">
+                            <span class="step_no">3</span>
+                            <span class="step_descr">
+                                              Paso 3<br />
+                                              <small> Datos Usuario</small>
+                                          </span>
+                          </a>
+                        </li>
+
+                      </ul>
+                      <div id="step-1">
+                        <h2 class="StepTitle">Descripcion</h2>
+                        <p>
+                          Rol Administrador: Tendra accesos.....................................
+                        </p>
+                        <p>
+                          Rol Usuario: Tendra accesos ......................................
+                        </p>
+                         <div class="wiz-nav">
+       
+      				 </div> 
+                      </div>
+                      
+                      <div id="step-2">
+                         <h2 class="StepTitle">Datos Persona</h2>
+                        <form class="form-horizontal form-label-left">
+
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name" >Nombre<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="nombre" name="nombre" type="text"  class="form-control col-md-7 col-xs-12">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Apellido Paterno<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="apellidoPaterno" name="apellidoPaterno" type="text"  required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Apellido Materno</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input  id="apellidoMaterno" name="apellidoMaterno" class="form-control col-md-7 col-xs-12" type="text" >
+                            </div>
+                          </div>
+
+                        </form>
+
+                      </div>
+          
+                      <div id="step-3">
+   						 <h2 class="StepTitle">Datos Usuario</h2>
+                         <form class="form-horizontal form-label-left" >
+                         <div class="form-group">
+                            <label id="labelNombreUsuario" class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Nombre de Usuario<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input onkeyup="validar()" id="nombreUsuario" name="nombreUsuario" type="text" class="form-control col-md-7 col-xs-12">
+                              <div id="error_mensaje" style="visibility:hidden" class="error-message">Cambie de nombre de usuario</div>
+                              
+                              <script type="text/javascript">
+                          		function validar(){
+                        		//console.log("fucntion")
+	                       			var nombreUsuario=document.getElementById("nombreUsuario").value;
+	                        		if(nombreUsuario.length>3){
+	                        			var token = $("input[name='_csrf']").val();
+	                        			var header = "X-CSRF-TOKEN";
+	                        			console.log("ajax");
+	                        			$.ajax({
+	                        				url: "/usuario/verificar",
+	                        				beforeSend: function(xhr) {
+	                        		            xhr.setRequestHeader(header, token)
+	                        		          },
+	                        				type:'GET',
+	                        				data:'username='+nombreUsuario,
+	                        				success:function(data){
+	                        					var x = document.getElementById('error_mensaje');
+	                        					var input = document.getElementById('nombreUsuario');
+	                        					var label = document.getElementById('labelNombreUsuario');         
+	                        					if(data==1){
+	                        						console.log("1");
+	                        						console.log("por favor cambie ..");
+	                        						 x.style.visibility = 'visible';
+	                        						 x.style.color = "red";
+	                        						 label.style.color = "red";
+	                        					     input.style.color = "red";
+
+	                        					}
+	                        					else{
+	                        						console.log("0");
+	                        						 x.style.visibility = 'hidden';
+	                        						 label.style.color = "#73879c";
+	                        					     input.style.color = "black";
+	                        					}
+	                        				},
+		                        			error:function(){
+		                        				console.log("error");
+		                        			}
+	                        			})
+	                        			
+	                        		}	
+
+                        		}
+                              </script>
+                              
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Contrase&#241a<span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input id="contrasenia" name="contrasenia" type="password"  required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Roles</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="checkbox">
+	                            <label class="">
+	                              <div><input type="checkbox" value="false" onclick="rol_admin()" id="rol1"></div> admin
+	                              
+	                            </label>
+	                            <div class="checkbox">
+	                            <label class="">
+	                                <div><input type="checkbox" value="false" onclick="rol_user()" id="rol2"></div> usuario
+	                            </label>
+	                          </div>
+	                          </div>
+                            </div>
+                          </div>
+                          </form>
+                      </div>
+
+                    </div>
+                    <!-- End SmartWizard Content -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+	            
+	            
+	            	          
+	          </div>
+	        </div>
+	        <!-- /page content -->
+	
+	        <!-- footer content -->
+	        <footer th:replace="views/layout/layout ::footer"></footer>
+	        <!-- /footer content -->
+		</div>
+	</div>
+	<div th:replace="views/layout/layout :: script">
+	</div>
+	<script th:src="@{/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js}"></script>
+	<script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+</body>
+</html>

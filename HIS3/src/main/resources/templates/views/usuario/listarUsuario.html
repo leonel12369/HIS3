@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="views/layout/layout ::head">
+
+</head>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+		
+			<!-- sidder bar -->
+			<div class="col-md-3 left_col" th:replace="views/layout/layout ::sidebar"></div>
+			<!-- /sidder bar -->
+	
+	        <!-- top navigation -->
+	        <div class="top_nav" th:replace="views/layout/layout :: top_nav"></div>
+	        <!-- /top navigation -->
+	
+	        <!-- page content -->
+	        <div class="right_col" role="main">
+	          <div class="">
+	            <div class="page-title">
+	              <div class="title_left">
+	                <h3>Listado Usuarios</h3>
+	              </div>
+	            </div>
+	
+	            <div class="clearfix"></div>
+	
+	            <div class="row">
+	                          <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+
+                    <p><code>Role_user</code> Tiene solo el rol user</p>
+                    <p><code>Role_admin</code>Tiene los roles de admin y roles user </p>
+
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">[ROLE_USER,&nbsp&nbsp&nbsp ROLE_ADMIN] </th>
+                            <th class="column-title">Nombre</th>
+                            <th class="column-title">Apellido Paterno</th>
+                            <th class="column-title">Apellido Materno</th>
+                            <th class="column-title">Nombre Usuario </th>
+                            <th class="column-title">Creacion </th>
+                            <th class="column-title no-link last"><span class="nobr">Opciones</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                        <th:block th:each="x:${adminuser}">
+                          <tr class="even pointer">
+                            <td class=" ">[ROLE_USER,&nbsp&nbsp&nbsp ROLE_ADMIN]</td>
+                            <td th:text="${x.usuario.nombre}"class=" ">May 23, 2014 11:47:56 PM </td>
+                            <td th:text="${x.usuario.apellidoPaterno}"class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
+                            <td th:text="${x.usuario.apellidoMaterno}"class=" ">John Blank L</td>
+                            <td th:text="${x.usuario.nombreUsuario}"class=" ">Paid</td>
+                            <td th:text="${x.usuario.creacion}"class="a-right a-right ">$7.45</td>
+                            <td class=" last"><a th:href="@{/usuario/editar/}+${x.usuario.idUsuario}" style="color:green">Editar</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="#" style="color:red">Eliminar</a></td>
+                            
+                          </tr>
+                          </th:block>
+
+     				   </tbody>
+                      </table>
+                      
+                      
+						<nav >
+						
+						<ul class="pagination">
+							<li class="page-item" th:class="${page_adminAndUser.first? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${page_adminAndUser.first}">Primera</span>
+								<a class="page-link" th:if="${not page_adminAndUser.first}" th:href="@{${page_adminAndUser.url}(page=0)}">Primera</a>
+							</li>
+						
+						
+							<li class="page-item" th:class="${not page_adminAndUser.hasPrevious? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${not page_adminAndUser.hasPrevious}">«</span>
+								<a class="page-link" th:if="${page_adminAndUser.hasPrevious}" th:href="@{${page_adminAndUser.url}(page=${page_adminAndUser.paginaActual-2})}">&laquo;</a>
+							</li>
+						
+							<li class="page-item" th:each="item : ${page_adminAndUser.paginas}" th:class="${item.actual? 'page-item active': 'page-item'}">
+								<span class="page-link" th:if="${item.actual}" th:text="${item.numero}"></span>
+								<a class="page-link" th:if="${not item.actual}" th:href="@{${page_adminAndUser.url}(page=${item.numero-1})}" th:text="${item.numero}"></a>
+							</li>
+						
+						
+							<li class="page-item" th:class="${not page_adminAndUser.hasNext? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${not page_adminAndUser.hasNext}">»</span>
+								<a class="page-link" th:if="${page_adminAndUser.hasNext}" th:href="@{${page_adminAndUser.url}(page=${page_adminAndUser.paginaActual})}">&raquo;</a>
+							</li>
+							
+							<li class="page-item" th:class="${page_adminAndUser.last? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${page_adminAndUser.last}">Última</span>
+								<a class="page-link" th:if="${not page_adminAndUser.last}" th:href="@{${page_adminAndUser.url}(page=${page_adminAndUser.totalPaginas-1})}">&#217ltima</a>
+							</li>
+						</ul>
+						
+						</nav>
+
+
+                    </div>
+					
+					
+					<div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">[ROLE_ADMIN] </th>
+                            <th class="column-title">Nombre</th>
+                            <th class="column-title">Apellido Paterno</th>
+                            <th class="column-title">Apellido Materno</th>
+                            <th class="column-title">Nombre Usuario </th>
+                            <th class="column-title">Creacion </th>
+                            <th class="column-title no-link last"><span class="nobr">Opciones</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                        <th:block th:each="x:${admin}">
+                          <tr class="even pointer">
+                            <td class=" ">[ROLE_ADMIN]&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+                            <td th:text="${x.usuario.nombre}"class=" ">May 23, 2014 11:47:56 PM </td>
+                            <td th:text="${x.usuario.apellidoPaterno}"class=" ">121000210</td>
+                            <td th:text="${x.usuario.apellidoMaterno}"class=" ">John Blank L</td>
+                            <td th:text="${x.usuario.nombreUsuario}"class=" ">Paid</td>
+                            <td th:text="${x.usuario.creacion}"class="a-right a-right ">$7.45</td>
+                            <td class=" last"><a th:href="@{/usuario/editar/}+${x.usuario.idUsuario}" style="color:green">Editar</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="#" style="color:red">Eliminar</a></td>
+                            
+                          </tr>
+                          </th:block>
+
+     				   </tbody>
+                      </table>
+                      <!--  
+						<nav >
+						
+						<ul class="pagination">
+							<li class="page-item" th:class="${page_admin.first? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${page_admin.first}">Primera</span>
+								<a class="page-link" th:if="${not page_admin.first}" th:href="@{${page_admin.url}(page=0)}">Primera</a>
+							</li>
+						
+						
+							<li class="page-item" th:class="${not page_admin.hasPrevious? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${not page_admin.hasPrevious}">«</span>
+								<a class="page-link" th:if="${page_admin.hasPrevious}" th:href="@{${page_admin.url}(page=${page_admin.paginaActual-2})}">&laquo;</a>
+							</li>
+						
+							<li class="page-item" th:each="item : ${page_admin.paginas}" th:class="${item.actual? 'page-item active': 'page-item'}">
+								<span class="page-link" th:if="${item.actual}" th:text="${item.numero}"></span>
+								<a class="page-link" th:if="${not item.actual}" th:href="@{${page_admin.url}(page=${item.numero-1})}" th:text="${item.numero}"></a>
+							</li>
+						
+						
+							<li class="page-item" th:class="${not page_admin.hasNext? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${not page_admin.hasNext}">»</span>
+								<a class="page-link" th:if="${page_admin.hasNext}" th:href="@{${page_admin.url}(page=${page_admin.paginaActual})}">&raquo;</a>
+							</li>
+							
+							<li class="page-item" th:class="${page_admin.last? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${page_admin.last}">Última</span>
+								<a class="page-link" th:if="${not page_admin.last}" th:href="@{${page_admin.url}(page=${page_admin.totalPaginas-1})}">Última</a>
+							</li>
+						</ul>
+						
+						</nav>
+								 -->
+
+                    </div>
+                    
+                    
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            <th class="column-title">[ROLE_USER] </th>
+                            <th class="column-title">Nombre</th>
+                            <th class="column-title">Apellido Paterno</th>
+                            <th class="column-title">Apellido Materno</th>
+                            <th class="column-title">Nombre Usuario </th>
+                            <th class="column-title">Creacion </th>
+                            <th class="column-title no-link last"><span class="nobr">Opciones</span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                        <th:block th:each="x:${user}">
+                          <tr class="even pointer">
+                            <td class=" ">[ROLE_USER]&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </td>
+                            <td th:text="${x.usuario.nombre}"class=" ">May 23, 2014 11:47:56 PM </td>
+                            <td th:text="${x.usuario.apellidoPaterno}"class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
+                            <td th:text="${x.usuario.apellidoMaterno}"class=" ">John Blank L</td>
+                            <td th:text="${x.usuario.nombreUsuario}"class=" ">Paid</td>
+                            <td th:text="${x.usuario.creacion}"class="a-right a-right ">$7.45</td>
+                            <td class=" last"><a th:href="@{/usuario/editar/}+${x.usuario.idUsuario}" style="color:green">Editar</a> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="#" style="color:red">Eliminar</a></td>
+                            
+                          </tr>
+                          </th:block>
+
+     				   </tbody>
+                      </table>
+                      <!-- 
+						<nav >
+						
+						<ul class="pagination">
+							<li class="page-item" th:class="${page_user.first? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${page_user.first}">Primera</span>
+								<a class="page-link" th:if="${not page_user.first}" th:href="@{${page_user.url}(page=0)}">Primera</a>
+							</li>
+						
+						
+							<li class="page-item" th:class="${not page_user.hasPrevious? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${not page_user.hasPrevious}">«</span>
+								<a class="page-link" th:if="${page_user.hasPrevious}" th:href="@{${page_user.url}(page=${page_user.paginaActual-2})}">&laquo;</a>
+							</li>
+						
+							<li class="page-item" th:each="item : ${page_user.paginas}" th:class="${item.actual? 'page-item active': 'page-item'}">
+								<span class="page-link" th:if="${item.actual}" th:text="${item.numero}"></span>
+								<a class="page-link" th:if="${not item.actual}" th:href="@{${page_user.url}(page=${item.numero-1})}" th:text="${item.numero}"></a>
+							</li>
+						
+						
+							<li class="page-item" th:class="${not page_user.hasNext? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${not page_user.hasNext}">»</span>
+								<a class="page-link" th:if="${page_user.hasNext}" th:href="@{${page_user.url}(page=${page_user.paginaActual})}">&raquo;</a>
+							</li>
+							
+							<li class="page-item" th:class="${page_user.last? 'page-item disabled': 'page-item'}">
+								<span class="page-link" th:if="${page_user.last}">Última</span>
+								<a class="page-link" th:if="${not page_user.last}" th:href="@{${page_user.url}(page=${page_user.totalPaginas-1})}">Última</a>
+							</li>
+						</ul>
+						
+						</nav>
+						-->
+
+                    </div>
+						
+                  </div>
+                </div>
+              </div>
+
+	            </div>
+	          </div>
+	        </div>
+	        <!-- /page content -->
+	
+	        <!-- footer content -->
+	        <footer th:replace="views/layout/layout ::footer"></footer>
+	        <!-- /footer content -->
+		</div>
+	</div>
+	<div th:replace="views/layout/layout :: script">
+	</div>
+</body>
+</html>

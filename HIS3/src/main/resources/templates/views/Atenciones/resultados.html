@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="views/layout/layout ::head"></head>
+<!-- iCheck -->
+ <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+ <!-- Datatables -->
+ <link th:href="@{/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css}" rel="stylesheet">
+ <link th:href="@{/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css}" rel="stylesheet">
+ <link th:href="@{/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css}" rel="stylesheet">
+ <link th:href="@{/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css}" rel="stylesheet">
+ <link th:href="@{/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css}" rel="stylesheet">
+<body>
+
+<div class="x_content" th:fragment="resultadosLista" >
+<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+<a class="btn btn-default buttons-copy buttons-html5 btn-sm "  tabindex="0" aria-controls="datatable-buttons" id="excel" ><span>excel</span></a>
+<a class="btn btn-default buttons-csv buttons-html5 btn-sm" tabindex="0" aria-controls="datatable-buttons" id="pdf" href="" target="_blank"><span>pdf</span></a>
+</div>
+
+ <div id="tabla_imprimir">
+   <table id="datatable-buttons2" class="table table-striped table-bordered">
+
+     <thead>
+       <tr>
+      	 <th>Tipo Doc</th>
+      	 <th>Nnumero Doc</th>
+      	 <th>Financiador</th>
+      	 <th>id</th>
+      	 <th>Institucion</th>
+      	 <th>Establecimiento</th>
+      	 <th>Departamento</th>
+      	 <th>Provincia</th>
+      	 <th>Distrito</th>
+         <th>Micro Red</th>
+         <th>Direccion</th>
+       </tr>
+     </thead>
+
+
+     <tbody>
+     <th:block th:each="x:${lista}">
+       <tr>
+         <td th:text="${x.tipoDoc}">Donna Snider</td>
+         <td th:text="${x.nroDoc}">Donna Snider</td>
+         <td th:text="${x.financiador}">Donna Snider</td>
+         <td th:text="${x.MIpress.codigoUnico}">Donna Snider</td>
+         <td th:text="${x.MIpress.institucion}">Donna Snider</td>
+         <td th:text="${x.MIpress.nombreEstablecimiento}">Donna Snider</td>
+         <td th:text="${x.MIpress.departamento}">Donna Snider</td>
+		 <td th:text="${x.MIpress.provincia}">Donna Snider</td>
+		 <td th:text="${x.MIpress.distrito}">Donna Snider</td>
+		 <td th:text="${x.MIpress.microrred}">Donna Snider</td>
+		 <td th:text="${x.MIpress.direccion}">Donna Snider</td>
+       </tr>
+     </th:block>
+     </tbody>
+
+   </table>
+   </div>
+</div>
+
+
+<!-- jQuery -->
+	    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+	    <!-- Bootstrap -->
+	    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+	    <!-- FastClick -->
+	    <script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+	    <!-- NProgress -->
+	    <script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+	    
+	    <!-- Custom Theme Scripts -->
+	    <script th:src="@{/ajax/iniciando.js}"></script>
+	<!-- iCheck -->
+   <script th:src="@{/vendors/iCheck/icheck.min.js}"></script>
+   <!-- Datatables -->
+   <script th:src="@{/vendors/datatables.net/js/jquery.dataTables.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-buttons/js/dataTables.buttons.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-buttons/js/buttons.flash.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-buttons/js/buttons.html5.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-buttons/js/buttons.print.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-responsive/js/dataTables.responsive.min.js}"></script>
+   <script th:src="@{/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js}"></script>
+   <script th:src="@{/vendors/datatables.net-scroller/js/dataTables.scroller.min.js}"></script>
+   <script th:src="@{/vendors/jszip/dist/jszip.min.js}"></script>
+   <script th:src="@{/vendors/pdfmake/build/pdfmake.min.js}"></script>
+   <script th:src="@{/vendors/pdfmake/build/vfs_fonts.js}"></script>
+</body>
+</html>

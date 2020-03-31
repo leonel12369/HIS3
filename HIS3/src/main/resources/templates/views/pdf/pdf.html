@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<p>PDF Impresion 2</p>
+<table width="100">
+     <thead >
+       <tr>
+         <th>Tipo Doc</th>
+      	 <th>Numero Doc</th>
+      	 <th>Finan- ciador</th>
+      	 <!-- <th>id</th> -->
+      	 <th>Institucion</th>
+      	 <th>Establecimien- to</th>
+      	 <th><span>Departamento</span> <br>
+      	 	<span>Provincia</span> <br>
+      	 	<span>Distrito</span>
+      	 </th>
+
+         <th>Micro Red</th>
+         <th>Direccion</th>
+       </tr>
+     </thead>
+
+
+     <tbody>
+     <th:block th:each="x:${lista}" >
+       <tr >
+         <td th:text="${x.tipoDoc}">Donna Snider</td>
+         <td th:text="${x.nroDoc}">Donna Snider</td>
+         <td th:text="${x.financiador}">Donna Snider</td>
+        <!-- <td th:text="${x.MIpress.codigoUnico}">Donna Snider</td>-->
+         <td th:text="${x.MIpress.institucion}">Donna Snider</td>
+         <td th:text="${x.MIpress.nombreEstablecimiento}">Donna Snider</td>
+         <td>
+          <ul>
+         <li><span th:text="${x.MIpress.departamento}"></span> <br></li>
+         <li><span th:text="${x.MIpress.provincia} "></span> <br></li>
+         <li><span th:text="${x.MIpress.distrito} "></span></li>
+        </ul>
+        <!--   &deg<span th:text="${x.MIpress.departamento}"></span> <br>
+         &deg<span th:text="${x.MIpress.provincia} "></span> <br>
+         &deg<<span th:text="${x.MIpress.distrito} "></span>-->
+        
+         </td>
+		 <td th:text="${x.MIpress.microrred}">Donna Snider</td>
+		 <td th:text="${x.MIpress.direccion}">Donna Snider</td>
+       </tr>
+     </th:block>
+     </tbody>
+   </table>
+</body>
+</html>

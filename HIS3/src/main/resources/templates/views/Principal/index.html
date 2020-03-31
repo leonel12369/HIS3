@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="views/layout/layout ::head">
+
+</head>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+		
+			<!-- sidder bar -->
+			<div class="col-md-3 left_col" th:replace="views/layout/layout ::sidebar"></div>
+			<!-- /sidder bar -->
+	
+	        <!-- top navigation -->
+	        <div class="top_nav" th:replace="views/layout/layout :: top_nav"></div>
+	        <!-- /top navigation -->
+	
+	        <!-- page content -->
+	        <div class="right_col" role="main">
+	          <div class="">
+	            <div class="page-title">
+	              <div class="title_left">
+	                <h3>Consultas</h3>
+	              </div>
+	            </div>
+	
+	            <div class="clearfix"></div>
+	
+	            <div class="row">
+	              <div class="col-md-12 col-sm-12 col-xs-12">
+	                <div class="x_panel">
+	                  <div class="x_title">
+	                    <h2>Pagina Principal</h2>
+	                    <ul class="nav navbar-right panel_toolbox">
+	                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	                      </li>
+	                    </ul>
+	                    <div class="clearfix"></div>
+	                  </div>
+	                  <div class="x_content">
+	                     Pagina principal ...
+	                  </div>
+	                </div>
+	              </div>
+	              
+	             <div class="col-md-12 col-sm-12 col-xs-12">
+	                <div class="x_panel">
+	                  <div class="x_title">
+	                    <h2>Pagina Principal</h2>
+	                    <ul class="nav navbar-right panel_toolbox">
+
+	                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+	                      </li>
+	                    </ul>
+	                    <div class="clearfix"></div>
+	                  </div>
+	                  <div class="x_content">
+	                     Pagina principal ...
+	                  </div>
+	                </div>
+	              </div>
+	            
+	              
+	            </div>
+	          </div>
+	        </div>
+	        <!-- /page content -->
+	
+	        <!-- footer content -->
+	        <footer th:replace="views/layout/layout ::footer"></footer>
+	        <!-- /footer content -->
+		</div>
+	</div>
+	<div th:replace="views/layout/layout :: script">
+	</div>
+</body>
+</html>

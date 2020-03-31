@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="views/layout/layout ::head">
+
+</head>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+		
+			<!-- sidder bar -->
+			<div class="col-md-3 left_col" th:replace="views/layout/layout ::sidebar"></div>
+			<!-- /sidder bar -->
+	
+	        <!-- top navigation -->
+	        <div class="top_nav" th:replace="views/layout/layout :: top_nav"></div>
+	        <!-- /top navigation -->
+	
+	        <!-- page content -->
+	        <div class="right_col" role="main">
+	          <div class="">
+	            <div class="page-title">
+	              <div class="title_left">
+	                <h3>Consultas</h3>
+	              </div>
+	            </div>
+	
+	            <div class="clearfix"></div>
+	
+	            <div class="row">
+
+
+			<div class="x_panel">
+
+              <div class="x_content">
+				<div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Datos de la Persona</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Nombre</label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input id="nombre" disabled="disabled"  type="text" class="form-control">
+                            <span class="input-group-btn">
+                                 <button onclick="Hnombre()" type="button" class="btn btn-primary">Habilitar</button>
+                             </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Apellido Paterno</label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input id="apellidoPaterno" disabled="disabled" type="text" class="form-control">
+                            <span class="input-group-btn">
+                                 <button onclick="APaterno()" type="button" class="btn btn-primary">Habilitar</button>
+                             </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label  class="col-sm-3 control-label">Apellido Materno</label>
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input id="apellidoMaterno" disabled="disabled" type="text" class="form-control">
+                            <span class="input-group-btn">
+                                 <button onclick="AMaterno()" type="button" class="btn btn-primary">Habilitar</button>
+                             </span>
+                          </div>
+                        </div>
+                      </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Datos del Usuario</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="form-group">
+                        <label id="labelNombreUsuario"class="col-sm-3 control-label">Nombre Usuario</label>
+
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input onkeyup="validar()" id="nombreUsuario" disabled="disabled" type="text" class="form-control">
+                             <div id="error_mensaje" style="display:none" class="error-message">Cambie de nombre de usuario</div>
+                            <span class="input-group-btn">
+                                 <button onclick="NUsuario()" type="button" class="btn btn-primary">Habilitar</button>
+                             </span>
+                          </div>
+                        </div>                       
+                      </div>
+
+					<div class="form-group">
+                        <label class="col-sm-3 control-label">Roles</label>
+
+                        <div class="col-sm-9">
+                          <div class="input-group">
+                            <input disabled="disabled" type="checkbox" id="rol1" value="" onclick="rol_admin()"> <label for="cbox2">&nbsp ROL_ADMIN</label><br>
+                            <input disabled="disabled" type="checkbox" id="rol2" value="" onclick="rol_user()"> <label for="cbox2">&nbsp ROL_USER</label>
+                            <span class="input-group-btn">
+                                 <button onclick="Roles()" type="button" class="btn btn-primary">Habilitar</button>
+                             </span>
+                          </div>
+                        </div>
+                        <div class=" col-md-9 col-sm-12 col-xs-12">
+                        <button style="visibility:hidden" type="button" class=" col-md-5 col-sm-12 col-xs-12"></button>
+                        <button onclick="guardar()"type="button" class=" col-md-3 col-sm-12 col-xs-12 btn btn-round btn-success">Guardar</button>
+                        </div>
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+              
+
+              </div>
+            </div>
+	              
+	            </div>
+	          </div>
+	        </div>
+	        <!-- /page content -->
+	
+	        <!-- footer content -->
+	        <footer th:replace="views/layout/layout ::footer"></footer>
+	        <!-- /footer content -->
+		</div>
+	</div>
+	<div th:replace="views/layout/layout :: script">
+	</div>
+	<script th:inline="javascript">
+	var usuario=[[${usuario}]];
+	var rol=[[${rol}]];
+	var idUsuario=[[${usuario.idUsuario}]];
+	var nombre=[[${usuario.nombre}]];
+	var apellidoPaterno=[[${usuario.apellidoPaterno}]];
+	var apellidoMaterno=[[${usuario.apellidoMaterno}]];
+	var nombreUsuario=[[${usuario.nombreUsuario}]];
+	var creacion=[[${usuario.creacion}]];
+	document.getElementById("nombre").value=nombre;
+	document.getElementById("apellidoPaterno").value=apellidoPaterno;
+	document.getElementById("apellidoMaterno").value=apellidoMaterno;
+	document.getElementById("nombreUsuario").value=nombreUsuario;
+	for(var i in rol){
+		console.log(rol[i]["nombre"]);
+		if(rol[i]["nombre"]=="ROLE_ADMIN"){
+			var check1 = $("#rol1").val(true);
+			document.getElementById("rol1").checked = true;
+		}
+		else{
+			var check1 = $("#rol2").val(true);
+			document.getElementById("rol2").checked = true;
+		}
+	}
+	
+	function Hnombre(){
+		$("#nombre").removeAttr('disabled');
+	}
+	function APaterno(){
+		$("#apellidoPaterno").removeAttr('disabled');
+	}
+	function AMaterno(){
+		$("#apellidoMaterno").removeAttr('disabled');
+	}
+	function NUsuario(){
+		$("#nombreUsuario").removeAttr('disabled');
+	}
+	function Roles(){
+		$("#rol1").removeAttr('disabled');
+		$("#rol2").removeAttr('disabled');
+	}
+	function rol_admin(){
+		var check1 = document.getElementById("rol1");
+		 if (check1.checked == true) {
+			 var check1 = $("#rol1").val(true);
+			 console.log(document.getElementById("rol1").value);
+	    } else {
+	   	 var check1 = $("#rol1").val(false);
+	   		console.log(document.getElementById("rol1").value);
+	    }
+	}
+	function rol_user(){
+		var check1 = document.getElementById("rol2");
+		 if (check1.checked == true) {
+			 var check1 = $("#rol2").val(true);
+			 console.log(document.getElementById("rol2").value);
+	    } else {
+	   	 var check1 = $("#rol2").val(false);
+	   		console.log(document.getElementById("rol2").value);
+	    }
+	}
+	
+	function validar(){
+		var nombreUsuario=document.getElementById("nombreUsuario").value;
+		if(nombreUsuario.length>3){
+			var token = $("input[name='_csrf']").val();
+			var header = "X-CSRF-TOKEN";
+			console.log("ajax");
+			$.ajax({
+				url: "/usuario/verificar",
+				beforeSend: function(xhr) {
+		            xhr.setRequestHeader(header, token)
+		          },
+				type:'GET',
+				data:'username='+nombreUsuario,
+				success:function(data){
+					var x = document.getElementById('error_mensaje');
+					var input = document.getElementById('nombreUsuario');
+					var label = document.getElementById('labelNombreUsuario');         
+					if(data==1){
+						console.log("1");
+						console.log("por favor cambie ..");
+						 x.style.display = 'block';
+						 x.style.color = "red";
+						 label.style.color = "red";
+					     input.style.color = "red";
+
+					}
+					else{
+						console.log("0");
+						 x.style.display = 'none';
+						 label.style.color = "#73879c";
+					     input.style.color = "black";
+					}
+				},
+    			error:function(){
+    				console.log("error");
+    			}
+			})
+			
+		}	
+
+	}
+	function guardar(){
+			//console.log("sdf");
+			var nombre= document.getElementById("nombre").value;
+			var apellidoPaterno=document.getElementById("apellidoPaterno").value;
+			var apellidoMaterno=document.getElementById("apellidoMaterno").value;
+			var nombreUsuario=document.getElementById("nombreUsuario").value;
+			var label = document.getElementById('labelNombreUsuario'); 
+			var check1 = document.getElementById("rol1").value;
+			var check2 = document.getElementById("rol2").value;
+			var idUsuario=[[${usuario.idUsuario}]];
+			var contrasenia=[[${usuario.contrasenia}]];
+			var creacion=[[${usuario.creacion}]];
+			console.log("creacion"+creacion);
+			console.log("id usuario"+idUsuario);
+			console.log("contrasenia"+contrasenia);
+			if(nombre==""){
+				alert("El campo nombre esta vacio"); 
+		    	return false;
+			};
+			if(apellidoPaterno==""){
+				alert("El campo apellido Paterno esta vacio"); 
+		    	return false;
+			};
+			if(apellidoMaterno==""){
+				alert("El campo apellido Materno esta vacio"); 
+		    	return false;
+			};
+			if(nombreUsuario==""){
+				alert("El campo nombre Usuario esta vacio"); 
+		    	return false;
+			};
+			if(nombreUsuario.length<4){
+				alert("El campo nombre Usuario debe tener mas de 3 letras"); 
+		    	return false;
+			};
+			
+			if(check1=="false" && check2=="false" ){
+				alert("Al menos el usuario debe tener algun rol"); 
+		    	return false;
+			}
+			console.log("---")
+		 	if(label.style.color==='red'){
+		 		alert("Debe cambiar el usuario"); 
+		 		return false;
+		 	}
+			/////////////////////////////////
+			console.log("---")
+			var listRol=[];
+			if(check1=="true" && check2=="true" ){
+				listRol.push("ROLE_ADMIN");
+				listRol.push("ROLE_USER");
+			}
+			else{
+				if(check1=="true"){
+					listRol.push("ROLE_ADMIN");
+				}
+				else{
+					listRol.push("ROLE_USER");
+				}	
+			}
+			var token = $("input[name='_csrf']").val();
+			var header = "X-CSRF-TOKEN";
+			var jsonUsuario={
+					idUsuario:idUsuario,
+					nombre:nombre,
+					apellidoPaterno:apellidoPaterno,
+					apellidoMaterno:apellidoMaterno,
+					nombreUsuario:nombreUsuario,
+					contrasenia:contrasenia,
+					creacion:creacion,
+					listRol:listRol
+			}
+			
+			$.ajax({
+				contentType: "application/json",
+				url:"/usuario/guardar",
+				beforeSend: function(xhr) {
+		            xhr.setRequestHeader(header, token)
+		          },
+				datatype:"application/json",
+				type:'POST',
+				data:JSON.stringify(jsonUsuario),
+				dataType:'json',
+				success:function(data){
+					console.log("success");
+				},
+				error:function(){
+					console.log("error");
+				}
+			})
+
+	}
+	
+	</script>
+</body>
+</html>

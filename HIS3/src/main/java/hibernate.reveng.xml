@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="his_atenciones"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="his_atenciones_detalles"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="his_maestro_personal"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_cie"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_cpm"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_cpmcie"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_financiador"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_ipress"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_paciente"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_sexo"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_turno_atencion"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_ubigeo"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="m_ups"/>
+  <table-filter match-catalog="HIS" match-schema="dbo" match-name="tiempo"/>
+</hibernate-reverse-engineering>

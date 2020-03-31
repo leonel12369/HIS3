@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="views/layout/layout ::head"></head>
+<body class="nav-md">
+	<div class="container body">
+		<div  class="main_container">
+		
+			<div class="col-md-3 left_col" th:replace="views/layout/layout ::sidebar">
+			</div>
+	
+	        <!-- top navigation -->
+	        <div class="top_nav" th:replace="views/layout/layout :: top_nav"></div>
+	        <!-- /top navigation -->
+				
+			<!--  page content -->
+			
+			 <div class="right_col" role="main">
+	          <div class="">
+	          <!--  TITULOS Y FORMULARIO DE BUSQUEDA-->
+			   	<div class="page-title">
+	              <div class="title_left">
+	                <h3>CONSULTAS</h3>
+	              </div>
+		
+	              <div class="title_right">
+	                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+	                  <div class="input-group">
+	                    <input type="text" class="form-control" placeholder="Ingrese nombre...">
+	                    <span class="input-group-btn">
+	                      <button class="btn btn-default" type="button">Buscar</button>
+	                    </span>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	            <!--  -->
+	            
+	            <div class="clearfix"></div>
+	            <div class="row">
+		              <div class="col-md-12 col-sm-12 col-xs-12">
+		                <div class="x_panel">
+		                  <div class="x_title">
+		                    <h2>Busqueda con parametro</h2>
+		                   
+		                    <div class="clearfix"></div>
+		                    <div id="messages"class="alert alert-danger" role="alert" style="display: none">
+		                    	<div class="title">
+								<h5 id="texto"></h5>
+								</div>
+							</div>
+		                  </div>
+		                  <div class="x_content">
+		                  	<div class="row">
+			                
+			                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+			
+			                      <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+			                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Departamento*</label>
+			                        <div class="col-md-6 col-sm-6 col-xs-6">
+			                          <select class="form-control" id="Sdepartamento"onchange="departamento()">
+			                          	<option>Escoja una opcion</option>
+			                          <th:block th:each="i:${departamentos}">
+			                            <option th:value="${i}" th:text="${i}"></option>
+			                          </th:block>
+			                          </select>
+			                        </div>
+			                      </div>
+								  <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+			                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Provincia*</label>
+			                        <div class="col-md-6 col-sm-6 col-xs-6">
+			                          <select class="form-control" id="provincia" name="provincia" >
+			                           <option>Escoja una opcion</option>
+			                          </select>
+			                        </div>
+			                      </div>
+								  <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+			                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Distrito</label>
+			                        <div class="col-md-6 col-sm-6 col-xs-6">
+			                          <select class="form-control" id="distrito" name="distrito">
+			                            <option>Escoja una opcion</option>
+			                          </select>
+			                        </div>
+			                      </div>
+								  <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+			                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Documento*</label>
+			                        <div class="col-md-6 col-sm-6 col-xs-6">
+			                          <select  class="form-control" id="tipDoc" onchange="errores()">
+			                          <option disabled selected>Escoja una opcion</option>
+			                           <th:block th:each="i:${tipoDoc}">
+			                            <option th:value="${i.nombre}" th:text="${i.nombre}"></option>
+			                           </th:block>
+			                          </select>
+			                        </div>
+			                      </div>
+								  
+			                      <div class="col-md-4 col-sm-12 col-xs-12 form-group" id="error" style="visibility: hidden">
+			                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Encontrar Errores</label>
+			                        <div class="col-md-6 col-sm-6 col-xs-12">
+			                        <br>
+                              		<input type="checkbox" value="false" onclick="check()" name="check_error" id="check_error"><label> &nbsp Encontrar errores</label>  
+			                        </div>
+			                      </div>
+			                      
+			                      <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+			                        <label class="control-label col-md-3 col-sm-3 col-xs-12">A&ntildeo*</label>
+			                        <div class="col-md-6 col-sm-6 col-xs-6">
+			                          <select class="form-control" id="anio">
+			                          <option>Escoja una opcion</option>
+			                          <option>2016</option>
+			                          <option>2017</option>
+			                          <option>2018</option>
+			                          <option>2019</option>
+			                          </select>
+			                        </div>
+			                      </div>
+			                      
+			                      <div class="col-md-4 col-sm-12 col-xs-12 form-group">
+			                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Mes*</label>
+			                        <div class="col-md-6 col-sm-6 col-xs-6">
+			                          <select class="form-control" id="mes">
+			                          <option>Escoja una opcion</option>
+			                          <th:block th:each="i:${mes}">
+			                            <option th:value="${i.idMes}" th:text="${i.nombre}"></option>
+			                           </th:block>
+			                          </select>
+			                        </div>
+			                      </div>
+ 
+								  
+			                      
+			                      <div class=" form-group">
+			                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5">
+			                          <button type="button" class="btn btn-success" onclick="enviar()">Enviar</button>
+									  <button class="btn btn-primary" type="reset">Resetear</button>
+			                          <button class="btn btn-primary" type="button" >Cancelar</button>
+			                        </div>
+			                      </div>
+			
+			                    </form>
+			                 </div>
+		                  </div>
+		                </div>
+		              </div>
+		            </div>
+		
+   
+	            <div class="page-title">
+	              <div class="title_left">
+	                <h3>Resultados </h3>
+	              </div>
+	            </div>
+	
+	            <div class="clearfix"></div>
+	
+	            <div class="row">
+	              <div class="col-md-12 col-sm-12 col-xs-12">
+	                <div class="x_panel">
+	                  <div class="x_title">
+	                    
+	                    
+	                    <div class="clearfix"></div>
+	                    <div class="alert alert-success" role="alert" id="mensajeResultado" style="display: none">Esto puede tardar un poco.....</div>
+	                  </div>
+
+	                  <div class="x_content" id="resultados">
+
+
+	                  </div>
+	                </div>
+	              </div>
+	       
+	            </div>
+	          </div>
+	        </div>
+			
+			
+			<!-- /page content -->
+	
+	        <!-- footer content -->
+	        <footer th:replace="views/layout/layout ::footer">
+	        </footer>
+	        <!-- /footer content -->
+		
+		</div>
+	</div>
+	<div th:replace="views/layout/layout:: script">
+	</div>
+	
+	<!-- AJAX -->
+	<script th:src="@{/ajax/ubigeo.js}"></script>
+	<script th:src="@{/ajax/busqueda.js}"></script>
+	
+</body>
+</html>
