@@ -182,10 +182,18 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Override
 	public Page<Rol> adminOrUserP(String nombreRol, Pageable pageable) {
 		// TODO Auto-generated method stub
+		int inicio=pageable.getPageSize()*pageable.getPageNumber();
+		int tamanio=pageable.getPageSize();
 		try {
-			List<Rol>lista=em.createNativeQuery("select t1.* from rol t1 inner join (select id_usuario from rol group by id_usuario having COUNT(id_usuario)<2)t2 on t1.id_usuario=t2.id_usuario  where t1.nombre=:nombre_rol",Rol.class).setParameter("nombre_rol", nombreRol).getResultList();
-			Page<Rol> page = new PageImpl<>(lista,pageable,lista.size());
-			System.out.println(page);
+			int cantidad=(int) em.createNativeQuery("select count(*) from rol t1 inner join (select id_usuario from rol group by id_usuario having COUNT(id_usuario)<2)t2 on t1.id_usuario=t2.id_usuario  where t1.nombre=:nombre_rol").setParameter("nombre_rol", nombreRol).getSingleResult();
+			
+			List<Rol>lista=em.createNativeQuery("select t1.* from rol t1 inner join (select id_usuario from rol group by id_usuario having COUNT(id_usuario)<2)t2 on t1.id_usuario=t2.id_usuario  where t1.nombre=:nombre_rol ORDER BY t1.id_rol OFFSET :inicio ROWS FETCH NEXT :tamanio ROWS ONLY",Rol.class)
+					.setParameter("inicio", inicio)
+					.setParameter("tamanio", tamanio)
+					.setParameter("nombre_rol", nombreRol).getResultList();
+			
+			Page<Rol> page = new PageImpl<>(lista,pageable,cantidad);
+			
 			return page;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -218,6 +226,38 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			System.out.println(e);
 		}
 		
+		return null;
+	}
+
+	@Override
+	public void deleteRol(int idUsuario) {
+		// TODO Auto-generated method stub
+		List<Rol> lista= findRol(idUsuario);
+		for (Rol i: lista) {
+			//System.out.println(i.getIdRol()+""+i.getUsuario().getIdUsuario());
+			em.remove(i);
+		}
+	}
+
+	@Override
+	public void deleteUsuario(int idUsuario) {
+		// TODO Auto-generated method stub
+		Usuario objeto= findUsuario(idUsuario);
+		//System.out.println(objeto.getNombre());
+		em.remove(objeto);
+		
+	}
+
+	@Override
+	public List<Rol> findRol(int idUsuario) {
+		// TODO Auto-generated method stub
+		try {
+			return em.createQuery("from Rol where id_usuario=:id",Rol.class).setParameter("id", idUsuario).getResultList();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("---------------------error------------");
+			System.out.println(e);
+		}
 		return null;
 	}
 

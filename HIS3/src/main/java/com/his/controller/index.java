@@ -14,4 +14,9 @@ public class index {
 		return "views/Principal/index";
 	}
 
+	@GetMapping("/layout")
+	public String layout(Model model) {
+		model.addAttribute("titulo","HIS-principal");
+		return "views/layout/layout";
+	}
 }

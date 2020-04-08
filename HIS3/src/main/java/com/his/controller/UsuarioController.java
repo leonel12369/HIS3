@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.his.model.Rol;
 import com.his.model.Usuario;
@@ -193,7 +194,8 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="/listar",method=RequestMethod.GET)
-	public String listar(@RequestParam(name="page",defaultValue="0") int page,Model model) {
+	public String listar(@RequestParam(name="page",defaultValue="0") int page,
+			Model model) {
 		System.out.println("page controller: "+page);
 		/*
 		List<Rol> lista=usuarioService.listar();
@@ -231,10 +233,10 @@ public class UsuarioController {
 		/*-----------------------------------------------------*/
 		
 		Pageable pagerequest=PageRequest.of(page, 5);
-		//Pageable pagerequest2=PageRequest.of(page, 5);
-		//Pageable pagerequest3=PageRequest.of(page, 5);
-		//Page<Rol> lista_admin=usuarioService.adminOrUserP("ROLE_ADMIN", pagerequest);
-		//Page<Rol> lista_user=usuarioService.adminOrUserP("ROLE_USER", pagerequest2);
+		//Pageable pagerequest2=PageRequest.of(page, 3);
+		//Pageable pagerequest3=PageRequest.of(page, 3);
+		//Page<Rol> lista_admin=usuarioService.adminOrUserP("ROLE_ADMIN", pagerequest2);
+		//Page<Rol> lista_user=usuarioService.adminOrUserP("ROLE_USER", pagerequest3);
 		Page<Rol> lista_adminAndUser=usuarioService.adminAndUserP(pagerequest);
 
 		
@@ -245,7 +247,8 @@ public class UsuarioController {
 		for(Rol r:lista_adminAndUser){
 			System.out.println(r.getIdRol());
 		}*/
-
+		//PageRender<Rol> pageRender_admin=new PageRender<>("/usuario/listar",lista_admin);
+		//PageRender<Rol> pageRender_User=new PageRender<>("/usuario/listar",lista_user);
 		PageRender<Rol> pageRender_adminAndUser=new PageRender<>("/usuario/listar",lista_adminAndUser);
 		
 		//System.out.println(lista_adminAndUser.getSize());
@@ -254,7 +257,7 @@ public class UsuarioController {
 		model.addAttribute("adminuser",lista_adminAndUser);
 		
 		//model.addAttribute("page_admin", pageRender_admin);
-		//model.addAttribute("page_user", pageRender_user);
+		//model.addAttribute("page_user", pageRender_User);
 		model.addAttribute("page_adminAndUser", pageRender_adminAndUser);
 		
 		model.addAttribute("admin", usuarioService.adminOrUser("ROLE_ADMIN"));
@@ -272,5 +275,25 @@ public class UsuarioController {
 		model.addAttribute("rol",usuarioService.findRolUsuario(id));
 
 		return "/views/usuario/editarUsuario";
+	}
+	
+	
+	@GetMapping("/listarPrueba")
+	public String listarPrueba(Model model) {
+		model.addAttribute("adminAndUser", usuarioService.adminAndUser());
+		model.addAttribute("admin", usuarioService.adminOrUser("ROLE_ADMIN"));
+		model.addAttribute("user", usuarioService.adminOrUser("ROLE_USER"));
+		return "/views/usuario/listarhtml";
+	}
+	
+	@RequestMapping(value="/eliminar/{id}")
+	public String eliminar(@PathVariable(value="id")int id,RedirectAttributes flash) {
+		if(id>0) {
+			System.out.println(id);
+			usuarioService.deleteRol(id);
+			usuarioService.deleteUsuario(id);
+			flash.addFlashAttribute("success", "PRODUCTO ELIMINADO");
+		}
+		return "redirect:/usuario/listarPrueba";
 	}
 }

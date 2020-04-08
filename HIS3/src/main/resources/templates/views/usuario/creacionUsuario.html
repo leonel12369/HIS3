@@ -115,8 +115,10 @@ function guardarUsuario(){
 			mensaje.style.display = 'block';
 			setTimeout(function(){
 				mensaje.style.display = 'none';
+				window.location.href="/usuario/listar/"
 				}, 2000);
 			console.log("success");
+			
 		},
 		error:function(){
 			console.log("error");

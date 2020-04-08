@@ -162,13 +162,56 @@
 	                    <div class="alert alert-success" role="alert" id="mensajeResultado" style="display: none">Esto puede tardar un poco.....</div>
 	                  </div>
 
-	                  <div class="x_content" id="resultados">
-
-
-	                  </div>
+	                 <!--  <div class="x_content" id="resultados"></div> -->
+	                 
+	                 <div class="col-md-12 col-sm-12 col-xs-12">
+						  <div class="x_panel">
+						    <div class="x_title">
+						      <h2>Tabla de datos </h2>
+						      <div class="clearfix"></div>
+						    </div>
+						
+						    <div class="x_content">
+						
+						      <div class="table-responsive">
+						        <table id="resultados2" class="table table-striped jambo_table bulk_action">
+						         
+						     <thead>
+						       <tr>
+						      	 <th>Tipo Doc</th>
+						      	 <th>Nnumero Doc</th>
+						      	 <th>Financiador</th>
+						      	 <th>id</th>
+						      	 <th>Institucion</th>
+						      	 <th>Establecimiento</th>
+						      	 <th>Departamento</th>
+						      	 <th>Provincia</th>
+						      	 <th>Distrito</th>
+						         <th>Micro Red</th>
+						         <th>Direccion</th>
+						       </tr>
+						     </thead>
+						
+						
+						     <tbody>
+				
+						     </tbody>
+						         
+						        </table>
+						      </div>
+						
+						
+						    </div>
+						    
+						   
+						  </div>
+						</div>
+				
+					
+						
 	                </div>
 	              </div>
-	       
+	       			
 	            </div>
 	          </div>
 	        </div>
@@ -183,8 +226,7 @@
 		
 		</div>
 	</div>
-	<div th:replace="views/layout/layout:: script">
-	</div>
+	<div th:replace="views/layout/layout:: script"></div>
 	
 	<!-- AJAX -->
 	<script th:src="@{/ajax/ubigeo.js}"></script>

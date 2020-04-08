@@ -133,7 +133,7 @@ function enviar(){
 	
 	var url='/atenciones/listarDatos';
 	url=url+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
-	+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error
+	+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error+'&page='
 	/*
 	var pdf="false";
 	var urlPDF=url+'&'+'pdf='+pdf;
@@ -143,22 +143,12 @@ function enviar(){
 	
 	
 	$('#mensajeResultado').css('display', 'block');
-	setTimeout(function() { $("#mensajeResultado").css('display', 'none'); }, 5000);
+	//setTimeout(function() { $("#mensajeResultado").css('display', 'none'); }, 5000);
+	//var token = $("input[name='_csrf']").val();
+	//var header = "X-CSRF-TOKEN";
 	
-	$("#resultados").load(url,function(){
-
-		//$('#datatable-buttons').DataTable().destroy();		
-		$('#datatable-buttons2').DataTable( {
-
-	        "language": {
-	        	"url": "/idioma/español.json"
-	        },
-	        dom: 'Bfrtip',
-	        buttons: [
-	            'print'
-	        ]
-		});
-		
+	$("#resultados2").load(url+'0',function(){
+		$("#mensajeResultado").css('display', 'none'); 
 		var documentoDownload=document.getElementById("excel");
 		var urlExcel='/atenciones/exportarDatos';
 		urlExcel=urlExcel+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
@@ -175,25 +165,109 @@ function enviar(){
 		documentoDownloadPDF.href=urlPDF;
 		console.log(documentoDownloadPDF.href);
 		var documentoprueba=document.getElementById("pdf");
+		console.log(documentoprueba.href);	
+	})
+	
+	/*$.ajax({
+		url: '/atenciones/listarPaginador'+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
+		+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error,
+		beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token)
+          },
+		type:'GET',
+		data:'',
+		success:function(data){    
+			console.log("bien");
+			console.log(data);
+			//console.log(data.content)
+			//console.log(data.content[0])
+			//console.log(data.content[0].idCita) 
+			//console.log(data.content.length)*/
+			/*$("#resultados2").load(url+'0',function(){
+				var documentoDownload=document.getElementById("excel");
+				var urlExcel='/atenciones/exportarDatos';
+				urlExcel=urlExcel+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
+				+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error+'&'+'documento=excel'
+				documentoDownload.href=urlExcel;
+				console.log(documentoDownload.href);
+				var documentoprueba=document.getElementById("excel");
+				console.log(documentoprueba.href);
+				
+				var documentoDownloadPDF=document.getElementById("pdf");
+				var urlPDF='/atenciones/exportarDatos';
+				urlPDF=urlPDF+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
+				+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error+'&'+'documento=pdf'
+				documentoDownloadPDF.href=urlPDF;
+				console.log(documentoDownloadPDF.href);
+				var documentoprueba=document.getElementById("pdf");
+				console.log(documentoprueba.href);	
+			})*/
+			/*for(i=0;i<data.content.length;i++){
+				$("#resultados2").append(
+					'<tr>'+
+					'<td>'+data.content[i].idCita+'</td>'+
+					'</tr>'
+				);
+			}*/
+			
+				
+	
+			/*$("#paginadorAtenciones").append(
+				'<li class="page-item"><a href="#"</a>Primera</li>'
+			)
+			for(i=0;i<data.totalPages;i++){
+				$("#paginadorAtenciones").append(
+						'<li class="page-item"><a href="#" onclick="enviar_paginador('+"'"+url+i+"'"+')" >'+i+'</a></li>'
+						
+				);
+			}
+			$("#paginadorAtenciones").append(
+				'<li class="page-item"><a href="#" </a>Ultima</li>'
+			)
+			//console.log(data.totalPages)
+
+			
+		},
+		error:function(){
+			console.log("error");
+		}
+	})*/
+
+
+	
+	//$("#resultados").load(url,function(){
+
+		//$('#datatable-buttons').DataTable().destroy();		
+		/*$('#datatable-buttons2').DataTable( {
+
+	        "language": {
+	        	"url": "/idioma/español.json"
+	        },
+	        dom: 'Bfrtip',
+	        buttons: [
+	            'print'
+	        ]
+		});*/
+		/*
+		var documentoDownload=document.getElementById("excel");
+		var urlExcel='/atenciones/exportarDatos';
+		urlExcel=urlExcel+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
+		+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error+'&'+'documento=excel'
+		documentoDownload.href=urlExcel;
+		console.log(documentoDownload.href);
+		var documentoprueba=document.getElementById("excel");
 		console.log(documentoprueba.href);
 		
-		
-		/*var enlaceNuevo=document.getElementById("pdfDescargar");
+		var documentoDownloadPDF=document.getElementById("pdf");
 		var urlPDF='/atenciones/exportarDatos';
 		urlPDF=urlPDF+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
-		+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error
-		enlaceNuevo.href=urlPDF;
-		console.log(enlaceNuevo.href);*/
+		+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error+'&'+'documento=pdf'
+		documentoDownloadPDF.href=urlPDF;
+		console.log(documentoDownloadPDF.href);
+		var documentoprueba=document.getElementById("pdf");
+		console.log(documentoprueba.href);	
 		
-		
-		/*var enlacePDF=document.getElementById("pdfreport");
-		var urlPDFVERDAD='/atenciones/pdfreport';
-		urlPDFVERDAD=urlPDFVERDAD+'?'+'departamento='+departamento+'&'+'provincia='+provincia+'&'+'distrito='+distrito
-		+'&'+'tipoDoc='+tipoDoc+'&'+'anio='+anio+'&'+'mes='+mes+'&'+'check_error='+check_error
-		enlacePDF.href=urlPDFVERDAD;
-		console.log(enlacePDF.href);*/
-	});
-	//$("#pdf").href=url
+	});*/
 
 	
 };
@@ -229,6 +303,11 @@ function errores(){
 		 $('#error').css('visibility', 'visible');
 	}
 };
+
+function enviar_paginador(url){
+	$("#resultados2").load(url,function(){})
+}
+
 
 /*function url(){
 	var urlExcelDownload=document.getElementById("excel");

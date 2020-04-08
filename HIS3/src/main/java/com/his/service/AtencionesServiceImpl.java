@@ -3,6 +3,8 @@ package com.his.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.his.dao.AtencionDao;
@@ -31,7 +33,33 @@ public class AtencionesServiceImpl implements AtencionesService{
 		// TODO Auto-generated method stub
 		return atencionDao.listarAtencionesErroneasConDistrito(ubigeo, tipoDoc, longitud);
 	}
+	
+	
+	
+	
+	/*--------------------------------------------PAGINADORES--------------------------------------------------*/
+	
+	
+	@Override
+	public Page<HisAtenciones> listarAtencionesFiltradosP(String ubigeo, String tipoDoc, String mes, String anio,
+			Pageable pageable) {
+		// TODO Auto-generated method stub
+		return atencionDao.listarAtencionesFiltradosP(ubigeo, tipoDoc, mes, anio, pageable);
+	}
 
+	@Override
+	public Page<HisAtenciones> listarAtencionesErroneasSinDistritoP(String ubigeo, String tipoDoc, String longitud,
+			Pageable pageable) {
+		// TODO Auto-generated method stub
+		return atencionDao.listarAtencionesErroneasSinDistritoP(ubigeo, tipoDoc, longitud, pageable);
+	}
+
+	@Override
+	public Page<HisAtenciones> listarAtencionesErroneasConDistritoP(String ubigeo, String tipoDoc, String longitud,
+			Pageable pageable) {
+		// TODO Auto-generated method stub
+		return atencionDao.listarAtencionesErroneasConDistritoP(ubigeo, tipoDoc, longitud, pageable);
+	}
 
 
 	

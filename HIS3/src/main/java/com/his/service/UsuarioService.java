@@ -34,6 +34,12 @@ public interface UsuarioService {
 	
 	public List<Rol> adminAndUser();
 	
+	public void deleteRol(int idUsuario);
+	
+	public void deleteUsuario(int idUsuario);
+	
+	public List<Rol> findRol(int idUsuario);
+	
 	
 	/*------------------------------------Paginadores----------------*/
 	

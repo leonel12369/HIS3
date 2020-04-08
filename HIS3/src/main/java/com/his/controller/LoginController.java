@@ -23,11 +23,11 @@ public class LoginController {
 		}
 		
 		if(error != null) {
-			model.addAttribute("error", "Error");
+			model.addAttribute("error", "La contraseña o usuario esta mal escrito");
 		}
 		
 		if(logout != null) {
-			model.addAttribute("success", "Cerro session");
+			model.addAttribute("success", "Cerró session");
 		}
 			
 		return "/views/login/login";

@@ -106,6 +106,26 @@ public class UsuarioServiceImpl implements UsuarioService{
 		// TODO Auto-generated method stub
 		return usuarioDao.adminAndUserP(pageable);
 	}
+
+	@Override
+	@Transactional
+	public void deleteRol(int idUsuario) {
+		// TODO Auto-generated method stub
+		usuarioDao.deleteRol(idUsuario);
+	}
+
+	@Override
+	@Transactional
+	public void deleteUsuario(int idUsuario) {
+		// TODO Auto-generated method stub
+		usuarioDao.deleteUsuario(idUsuario);
+	}
+
+	@Override
+	public List<Rol> findRol(int idUsuario) {
+		// TODO Auto-generated method stub
+		return usuarioDao.findRol(idUsuario);
+	}
 	
 	
 

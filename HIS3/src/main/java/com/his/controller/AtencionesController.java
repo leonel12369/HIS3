@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.his.model.HisAtenciones;
+import com.his.paginador.PageRender;
 import com.his.pdf.ExcelServiceImpl;
 import com.his.pdf.PdfService;
 import com.his.service.AtencionesService;
@@ -82,7 +86,9 @@ public class AtencionesController {
 	}*/
 		
 	@GetMapping("/listarDatos")
-	public String listarDatos(Model model,@RequestParam(value="departamento")String departamento,@RequestParam(value="provincia")String provincia,
+	public String listarDatos(Model model,
+			@RequestParam(name="page",defaultValue="0") int page,
+			@RequestParam(value="departamento")String departamento,@RequestParam(value="provincia")String provincia,
 			@RequestParam(value="distrito")String distrito,@RequestParam(value="tipoDoc")String tipoDoc,
 			@RequestParam(value="anio")String anio,
 			@RequestParam(value="mes")String mes,@RequestParam(value="check_error")String check_error){
@@ -97,7 +103,12 @@ public class AtencionesController {
 				+" mes: "+mes+" anio: "+ anio+" check_error: "+check_error);
 		//System.out.println("check_error"+check_error.getClass().getName());
 		String longitud="";
-
+		String url="/atenciones/listarDatos";
+		url=url+"?"+"departamento="+departamento+"&"+"provincia="+provincia+"&"+"distrito="+distrito
+		+"&"+"tipoDoc="+tipoDoc+"&"+"anio="+anio+"&"+"mes="+mes+"&"+"check_error="+check_error+"&page=";
+		System.out.println(url);
+		Pageable pagerequest=PageRequest.of(page, 5);
+		
 		if(check_error.equals("true")) {
 			switch(tipoDoc) {
 			case "CE":
@@ -120,30 +131,124 @@ public class AtencionesController {
 			if(distrito.equals("Escoja una opcion")) {
 				ubigeo= (String)ubigeoService.extraerUbigeoValidado(departamento, provincia);
 				System.out.println("ubigeo "+ubigeo);
-				model.addAttribute("lista", atencionesService.listarAtencionesErroneasSinDistrito(ubigeo, tipoDoc, longitud));
-				System.out.println(atencionesService.listarAtencionesErroneasSinDistrito(ubigeo, tipoDoc, longitud).size());
-
+				//model.addAttribute("lista", atencionesService.listarAtencionesErroneasSinDistrito(ubigeo, tipoDoc, longitud));
+				//System.out.println(atencionesService.listarAtencionesErroneasSinDistrito(ubigeo, tipoDoc, longitud).size());
+				Page<HisAtenciones> lista= atencionesService.listarAtencionesErroneasSinDistritoP(ubigeo, tipoDoc, longitud, pagerequest);
+				PageRender<HisAtenciones> pageRender_lista=new PageRender<>(url,lista);
+				//url estoy viendo si es enviar todo o solo 
+				model.addAttribute("lista",lista);
+				model.addAttribute("page", pageRender_lista);
 			}
 			else {
 				List<String> ListIdUbigeo=ubigeoService.extraerIdUbigeo(departamento, provincia, distrito);
 				String idUbigeo=ListIdUbigeo.get(0);
-				model.addAttribute("lista",atencionesService.listarAtencionesErroneasConDistrito(idUbigeo, tipoDoc, longitud));
-				System.out.println(atencionesService.listarAtencionesErroneasConDistrito(idUbigeo, tipoDoc, longitud).size());
-
+				//model.addAttribute("lista",atencionesService.listarAtencionesErroneasConDistrito(idUbigeo, tipoDoc, longitud));
+				//System.out.println(atencionesService.listarAtencionesErroneasConDistrito(idUbigeo, tipoDoc, longitud).size());
+				Page<HisAtenciones> lista= atencionesService.listarAtencionesErroneasConDistritoP(idUbigeo, tipoDoc, longitud, pagerequest);
+				PageRender<HisAtenciones> pageRender_lista=new PageRender<>(url,lista);
+				model.addAttribute("lista",lista);
+				model.addAttribute("page", pageRender_lista);
 			}	
 		}
 		else {
 			List<String> ListIdUbigeo=ubigeoService.extraerIdUbigeo(departamento, provincia, distrito);
 			String idUbigeo=ListIdUbigeo.get(0);
-			model.addAttribute("lista",atencionesService.listarAtencionesFiltrados(idUbigeo, tipoDoc, mes,anio));
-			System.out.println(atencionesService.listarAtencionesFiltrados(idUbigeo, tipoDoc, mes,anio).size());
-
+			//model.addAttribute("lista",atencionesService.listarAtencionesFiltrados(idUbigeo, tipoDoc, mes,anio));
+			//System.out.println(atencionesService.listarAtencionesFiltrados(idUbigeo, tipoDoc, mes,anio).size());
+			Page<HisAtenciones> lista= atencionesService.listarAtencionesFiltradosP(idUbigeo, tipoDoc, mes, anio, pagerequest);
+			PageRender<HisAtenciones> pageRender_lista=new PageRender<>(url,lista);
+			model.addAttribute("lista",lista);
+			System.out.println("lista: "+lista.getTotalPages());
+			model.addAttribute("page", pageRender_lista);
 		}
 		
 	
-		return "views/Atenciones/resultados";
+		return "views/Atenciones/resultados_atenciones";
 	}
 	
+	
+	
+	@RequestMapping(value="/listarPaginador", method=RequestMethod.GET)
+	public @ResponseBody Page<HisAtenciones> ajaxPaginador(Model model,
+			@RequestParam(name="page",defaultValue="0") int page,
+			@RequestParam(value="departamento")String departamento,@RequestParam(value="provincia")String provincia,
+			@RequestParam(value="distrito")String distrito,@RequestParam(value="tipoDoc")String tipoDoc,
+			@RequestParam(value="anio")String anio,
+			@RequestParam(value="mes")String mes,@RequestParam(value="check_error")String check_error
+			
+			) {
+		
+		String url="/atenciones/listarDatos";
+		url=url+"?"+"departamento="+departamento+"&"+"provincia="+provincia+"&"+"distrito="+distrito
+		+"&"+"tipoDoc="+tipoDoc+"&"+"anio="+anio+"&"+"mes="+mes+"&"+"check_error="+check_error+"&page=";
+		System.out.println("url: "+url);
+		departamento=departamento.replace('_', ' ');
+		 provincia=provincia.replace('_', ' ');
+		 distrito=distrito.replace('_', ' ');
+		 tipoDoc=tipoDoc.replace('_', ' ');
+		 anio=anio.replace('_', ' ');
+		 mes=mes.replace('_', ' ');
+		
+		//System.out.println("departamento: "+departamento+" provincia: "+provincia+" distrito: "+distrito+" tipoDoc: "+tipoDoc
+			//	+" mes: "+mes+" anio: "+ anio+" check_error: "+check_error);
+		//System.out.println("check_error"+check_error.getClass().getName());
+		String longitud="";
+		Pageable pagerequest=PageRequest.of(page, 5);
+		Page<HisAtenciones> lista=null;
+		if(check_error.equals("true")) {
+			switch(tipoDoc) {
+			case "CE":
+				longitud="12";
+				break;
+			case "CNV":
+				longitud="10";
+				break;
+			case "DIE":
+				longitud="8";
+				break;
+			case "DNI":
+				longitud="8";
+				break;
+			case "PASS":
+				longitud="12";
+				break;
+			}
+			String ubigeo="";
+			if(distrito.equals("Escoja una opcion")) {
+				ubigeo= (String)ubigeoService.extraerUbigeoValidado(departamento, provincia);
+				System.out.println("ubigeo "+ubigeo);
+				//model.addAttribute("lista", atencionesService.listarAtencionesErroneasSinDistrito(ubigeo, tipoDoc, longitud));
+				//System.out.println(atencionesService.listarAtencionesErroneasSinDistrito(ubigeo, tipoDoc, longitud).size());
+				lista= atencionesService.listarAtencionesErroneasSinDistritoP(ubigeo, tipoDoc, longitud, pagerequest);
+				PageRender<HisAtenciones> pageRender_lista=new PageRender<>(url,lista);
+				//url estoy viendo si es enviar todo o solo 
+				model.addAttribute("lista",lista);
+				model.addAttribute("page", pageRender_lista);
+			}
+			else {
+				List<String> ListIdUbigeo=ubigeoService.extraerIdUbigeo(departamento, provincia, distrito);
+				String idUbigeo=ListIdUbigeo.get(0);
+				//model.addAttribute("lista",atencionesService.listarAtencionesErroneasConDistrito(idUbigeo, tipoDoc, longitud));
+				//System.out.println(atencionesService.listarAtencionesErroneasConDistrito(idUbigeo, tipoDoc, longitud).size());
+				lista= atencionesService.listarAtencionesErroneasConDistritoP(idUbigeo, tipoDoc, longitud, pagerequest);
+				PageRender<HisAtenciones> pageRender_lista=new PageRender<>(url,lista);
+				model.addAttribute("lista",lista);
+				model.addAttribute("page", pageRender_lista);
+			}	
+		}
+		else {
+			List<String> ListIdUbigeo=ubigeoService.extraerIdUbigeo(departamento, provincia, distrito);
+			String idUbigeo=ListIdUbigeo.get(0);
+			//model.addAttribute("lista",atencionesService.listarAtencionesFiltrados(idUbigeo, tipoDoc, mes,anio));
+			//System.out.println(atencionesService.listarAtencionesFiltrados(idUbigeo, tipoDoc, mes,anio).size());
+			lista= atencionesService.listarAtencionesFiltradosP(idUbigeo, tipoDoc, mes, anio, pagerequest);
+			PageRender<HisAtenciones> pageRender_lista=new PageRender<>(url,lista);
+			model.addAttribute("lista",lista);
+			model.addAttribute("page", pageRender_lista);
+		}
+		
+		return lista;
+	}
 	
 	/*@GetMapping("/exportarDatos")
 	public ResponseEntity<InputStreamResource> exportExcel(@RequestParam(value="departamento")String departamento,@RequestParam(value="provincia")String provincia,

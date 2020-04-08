@@ -20,17 +20,18 @@
 	          <div class="">
 	            <div class="page-title">
 	              <div class="title_left">
-	                <h3>Consultas</h3>
+	                <h3>Editar persona</h3>
 	              </div>
 	            </div>
 	
 	            <div class="clearfix"></div>
-	
 	            <div class="row">
-
+				
 
 			<div class="x_panel">
-
+			<div id="mensaje_success"class="alert alert-success" role="alert" style="display:none">
+					  Se guardo correctamente
+				</div>
               <div class="x_content">
 				<div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -325,7 +326,12 @@
 				data:JSON.stringify(jsonUsuario),
 				dataType:'json',
 				success:function(data){
-					console.log("success");
+					var mensaje = document.getElementById('mensaje_success');  
+					mensaje.style.display = 'block';
+					setTimeout(function(){
+						mensaje.style.display = 'none';
+						window.location.href="/usuario/listar/"
+					}, 2000);
 				},
 				error:function(){
 					console.log("error");

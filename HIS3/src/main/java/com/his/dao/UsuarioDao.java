@@ -34,6 +34,12 @@ public interface UsuarioDao {
 	
 	public List<Rol> adminAndUser();
 	
+	public void deleteRol(int idUsuario);
+	
+	public void deleteUsuario(int idUsuario);
+	
+	public List<Rol> findRol(int idUsuario);
+	
 	/*------------------------------------Paginadores----------------*/
 	
 	public Page<Rol> adminOrUserP(String nombreRol,Pageable pageable) ;
