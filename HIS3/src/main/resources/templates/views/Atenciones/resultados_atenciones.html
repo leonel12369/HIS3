@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="views/layout/layout ::head"></head>
+<body>
+<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-5"  th:if="${lista.getTotalPages()!=0}">
+<a class="btn btn-default buttons-copy buttons-html5 btn-sm "  tabindex="0" aria-controls="datatable-buttons" id="excel" ><span>excel</span></a>
+<a class="btn btn-default buttons-csv buttons-html5 btn-sm" tabindex="0" aria-controls="datatable-buttons" id="pdf" href="" target="_blank"><span>pdf</span></a>
+</div>
+<br>
+<div class="col-md-12 col-sm-12 col-xs-12">
+<div th:if="${lista.getTotalPages()==0}" >
+	<div class="alert alert-success" role="alert">
+	  No hay ningun registro 
+	</div>
+</div>
+    <div class="table-responsive">
+      <table class="table table-striped jambo_table bulk_action">
+         
+     <thead>
+       <tr>
+      	 <th>Tipo Doc</th>
+      	 <th>Nnumero Doc</th>
+      	 <th>Financiador</th>
+      	 <th>id</th>
+      	 <th>Institucion</th>
+      	 <th>Establecimiento</th>
+      	 <th>Departamento</th>
+      	 <th>Provincia</th>
+      	 <th>Distrito</th>
+         <th>Micro Red</th>
+         <th>Direccion</th>
+       </tr>
+     </thead>
+
+     <tbody>
+     
+     <th:block th:each="x:${lista}">
+       <tr>
+         <td th:text="${x.tipoDoc}">Donna Snider</td>
+         <td th:text="${x.nroDoc}">Donna Snider</td>
+         <td th:text="${x.financiador}">Donna Snider</td>
+         <td th:text="${x.MIpress.codigoUnico}">Donna Snider</td>
+         <td th:text="${x.MIpress.institucion}">Donna Snider</td>
+         <td th:text="${x.MIpress.nombreEstablecimiento}">Donna Snider</td>
+         <td th:text="${x.MIpress.departamento}">Donna Snider</td>
+		 <td th:text="${x.MIpress.provincia}">Donna Snider</td>
+		 <td th:text="${x.MIpress.distrito}">Donna Snider</td>
+		 <td th:text="${x.MIpress.microrred}">Donna Snider</td>
+		 <td th:text="${x.MIpress.direccion}">Donna Snider</td>
+       </tr>
+     </th:block>
+     
+     </tbody>
+         
+      </table>
+    </div>
+      
+      
+      
+      <nav >
+						
+		<ul class="pagination">
+			<li class="page-item" th:class="${page.first? 'page-item disabled': 'page-item'}">
+				<span class="page-link" th:if="${page.first}">Primera</span>
+				<a class="page-link" th:if="${not page.first}" href="#">Primera</a>
+			</li>
+		
+		
+			<li class="page-item" th:class="${not page.hasPrevious? 'page-item disabled': 'page-item'}">
+				<span class="page-link" th:if="${not page.hasPrevious}">«</span>
+				<a class="page-link" th:if="${page.hasPrevious}" href="#">&laquo;</a>
+			</li>
+		
+			<li class="page-item" th:each="item : ${page.paginas}" th:class="${item.actual? 'page-item active': 'page-item'}">
+				<span class="page-link" th:if="${item.actual}" th:text="${item.numero}"></span>
+				<a class="page-link" th:if="${not item.actual}"  href="#" th:attr="onclick=|enviar_paginador_prueba('${page.url}','${item.numero}')|" th:text="${item.numero}" ></a>
+			</li>
+		
+		
+			<li class="page-item" th:class="${not page.hasNext? 'page-item disabled': 'page-item'}">
+				<span class="page-link" th:if="${not page.hasNext}">»</span>
+				<a class="page-link" th:if="${page.hasNext}" href="#">&raquo;</a>
+			</li>
+			
+			<li class="page-item" th:class="${page.last? 'page-item disabled': 'page-item'}">
+				<span class="page-link" th:if="${page.last}">Última</span>
+				<a class="page-link" th:if="${not page.last}" href="#" >Última</a>
+			</li>
+		</ul>
+		
+		</nav>
+</div>
+
+<script  th:inline="javascript">
+function enviar_paginador_prueba(x,y){ 
+	console.log(x)
+	console.log(y)
+	var indice=parseInt(y)
+	indice=y-1
+	$("#resultados2").load(x+indice,function(){})
+}
+</script>
+</body>
+</html>
